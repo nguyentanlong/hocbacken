@@ -5,6 +5,8 @@ const webRoutes = require('./routes/web');
 const apiRoutes = require('./routes/api');
 const fileUpload = require('express-fileupload');
 const connection = require('./config/database');
+const userTable = require('./models/tableUser');
+
 
 const app = express();// app express
 const port = process.env.PORT || 8888; //port => hardcode . uat .prod
@@ -23,6 +25,10 @@ configViewEngine(app);
 //khai báo route
 app.use('/', webRoutes);
 app.use('/v1/api/', apiRoutes);
+
+
+const themUser = new userTable({ name: 'Giá trị row' });
+themUser.save();
 
 
 (async () => {
