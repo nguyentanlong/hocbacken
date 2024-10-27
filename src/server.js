@@ -27,8 +27,7 @@ app.use('/', webRoutes);
 app.use('/v1/api/', apiRoutes);
 
 
-const themUser = new userTable({ name: 'Giá trị row' });
-themUser.save();
+// const themUser = new uss
 
 
 (async () => {

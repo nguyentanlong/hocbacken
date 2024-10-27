@@ -2,10 +2,11 @@ const connection = require('../config/database');
 const { getAllUsers, getUserById,
     updateUserById, deleteUserById } = require('../services/CRUDService');
 
-const User = require("../models/user");
+// const User = require("../models/user");
+const userTable = require("../models/tableUser");
 
 const getHomepage = async (req, res) => {
-    let results = await User.find({});
+    let results = await userTable.find({});//=> select * from table
     return res.render('home.ejs', { listUsers: results }) // x <- y
 }
 
@@ -19,15 +20,22 @@ const getHoiDanIT = (req, res) => {
 }
 
 const postCreateUser = async (req, res) => {
-    let email = req.body.email;
     let name = req.body.myname;
-    let city = req.body.city;
-    await User.create({
-        email: email,
+    let phoneNumber = req.body.numberPhone;
+    let email = req.body.email;
+    let address = req.body.address;
+    // await User.create({
+    //     email: email,
+    //     name: name,
+    //     city: city
+    // })
+    // trên là mysql2
+    await userTable.create({//lần đầu sử dung .save
         name: name,
-        city: city
+        phoneNumber: phoneNumber,
+        email: email,
+        address: address
     })
-
     res.send(' Created user succeed !')
 }
 
@@ -38,22 +46,23 @@ const getCreatePage = (req, res) => {
 const getUpdatePage = async (req, res) => {
     const userId = req.params.id;
     // let user = await getUserById(userId);
-    let user = await User.findById(userId).exec();
+    let user = await userTable.findById(userId).exec();
     res.render('edit.ejs', { userEdit: user }); //x <- y
 }
 const postUpdateUser = async (req, res) => {
     let email = req.body.email;
     let name = req.body.myname;
-    let city = req.body.city;
+    let address = req.body.address;
+    let phoneNumber = req.body.phoneNumber
     let userId = req.body.userId;
 
-    await User.updateOne({ _id: userId }, { email: email, name: name, city: city });
+    await userTable.updateOne({ _id: userId }, { email: email, name: name, address: address, phoneNumber: phoneNumber });
     res.redirect('/');
 }
 
 const postDeleteUser = async (req, res) => {
     const userId = req.params.id;
-    let user = await User.findById(userId).exec();
+    let user = await userTable.findById(userId).exec();
     res.render('delete.ejs', { userEdit: user })
 }
 
@@ -61,11 +70,11 @@ const postHandleRemoveUser = async (req, res) => {
     const id = req.body.userId;
 
     // await deleteUserById(id);
-    let result = await User.deleteOne({
+    let result = await userTable.deleteOne({
         _id: id
     })
 
-    console.log(">>> result: ", result)
+    // console.log(">>> result: ", result)
     res.redirect('/');
 }
 module.exports = {
