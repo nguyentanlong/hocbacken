@@ -1,20 +1,20 @@
 const path = require("path"); //fs : file system
 
-const uploadSingleFile = async (fileObject) => {
+const uploadSingleFile = async (fileTruyenAPIController) => {
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 
     // save => public/images/upload
     //remember to create the upload folder first
     let uploadPath = path.resolve(__dirname, "../public/images/upload");
-    // console.log(">>> check fileObject: ", path.resolve(__dirname, "../public/images/upload"))
+    // console.log(">>> check fileTruyenAPIController: ", path.resolve(__dirname, "../public/images/upload"))
 
     // abc.png => abc-timestamp.png
 
     //get image extension
-    let extName = path.extname(fileObject.name);
+    let extName = path.extname(fileTruyenAPIController.name);
 
     //get image's name (without extension)
-    let baseName = path.basename(fileObject.name, extName);
+    let baseName = path.basename(fileTruyenAPIController.name, extName);
 
     //create final path: eg: /upload/your-image.png
     let finalName = `${baseName}-${Date.now()}${extName}`
@@ -23,7 +23,7 @@ const uploadSingleFile = async (fileObject) => {
     // console.log("final path: ", finalPath)
 
     try {
-        await fileObject.mv(finalPath);
+        await fileTruyenAPIController.mv(finalPath);
         return {
             status: 'success',
             path: finalName,

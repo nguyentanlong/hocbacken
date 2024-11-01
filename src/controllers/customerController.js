@@ -8,53 +8,83 @@ const Joi = require('joi');
 
 // {key: value, key1: value1}
 module.exports = {
+    // postCreateCustomer: async (req, res) => {
+    //     let { name, address, phone, email, description } = req.body;
+    //     const schema = Joi.object({
+    //         name: Joi.string()
+    //             .alphanum()
+    //             .min(3)
+    //             .max(30)
+    //             .required(),
+    //         address: Joi.string(),
+    //         phone: Joi.string().pattern(new RegExp('^[0-9]{8,11}$')),
+    //         email: Joi.string().email(),
+    //         description: Joi.string(),
+    //     })
+    //     const { error } = schema.validate(req.body);
+    //     if (error) {
+    //         //return error
+    //     } else {
+    //         let imageUrl = "";
+
+    //         // image: String,
+    //         if (!req.files || Object.keys(req.files).length === 0) {
+    //             //do nothing
+    //         } else {
+    //             let result = await uploadSingleFile(req.files.image);
+    //             imageUrl = result.path;
+    //         }
+
+    //         let customerData = {
+    //             name,
+    //             address,
+    //             phone,
+    //             email,
+    //             description,
+    //             image: imageUrl
+    //         }
+    //         let customer = await createCustomerService(customerData);
+
+    //         return res.status(200).json(
+    //             {
+    //                 EC: 0,
+    //                 data: customer
+    //             }
+    //         )
+    //     }
+    // },
     postCreateCustomer: async (req, res) => {
         let { name, address, phone, email, description } = req.body;
-        const schema = Joi.object({
-            name: Joi.string()
-                .alphanum()
-                .min(3)
-                .max(30)
-                .required(),
-            address: Joi.string(),
-            phone: Joi.string().pattern(new RegExp('^[0-9]{8,11}$')),
-            email: Joi.string().email(),
-            description: Joi.string(),
-        })
-        const { error } = schema.validate(req.body);
-        if (error) {
-            //return error
+        let imageUrl = "";
+
+        // image: String,
+        if (!req.files || Object.keys(req.files).length === 0) {
+            //do nothing
         } else {
-            let imageUrl = "";
-
-            // image: String,
-            if (!req.files || Object.keys(req.files).length === 0) {
-                //do nothing
-            } else {
-                let result = await uploadSingleFile(req.files.image);
-                imageUrl = result.path;
-            }
-
-            let customerData = {
-                name,
-                address,
-                phone,
-                email,
-                description,
-                image: imageUrl
-            }
-            let customer = await createCustomerService(customerData);
-
-            return res.status(200).json(
-                {
-                    EC: 0,
-                    data: customer
-                }
-            )
+            let result = await uploadSingleFile(req.files.image);
+            imageUrl = result.path;
         }
+
+        let customerData = {
+            name,
+            address,
+            phone,
+            email,
+            description,
+            image: imageUrl
+        }
+        let customer = await createCustomerService(customerData);
+
+        return res.status(200).json(
+            {
+                EC: 0,
+                data: customer
+            }
+        )
     },
+
     postCreateArrayCustomer: async (req, res) => {
-        let customers = await createArrayCustomerService(req.body.customers);
+        let customers = await createArrayCustomerService(req.body.customers1);
         if (customers) {
             return res.status(200).json(
                 {
@@ -75,11 +105,11 @@ module.exports = {
 
         let limit = req.query.limit;
         let page = req.query.page;
-        let name = req.query.name;
+        // let name = req.query.name;
         let result = null;
 
         if (limit && page) {
-            result = await getAllCustomerService(limit, page, name, req.query);
+            result = await getAllCustomerService(limit, page, req.query);
         } else
             result = await getAllCustomerService();
         return res.status(200).json(

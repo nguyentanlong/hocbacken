@@ -30,17 +30,19 @@ const createArrayCustomerService = async (arr) => {
     }
 }
 
-const getAllCustomerService = async (limit, page, name, queryString) => {
+const getAllCustomerService = async (limit, page, queryString) => {
     try {
         let result = null;
         if (limit && page) {
-            let offset = (page - 1) * limit;
+            let offset = (page - 1) * limit;// tinh toán bỏ bao nhiêu phần tử
             const { filter } = aqp(queryString);
             delete filter.page;
+            // console.log(">>>Check chạy if>> ", filter);
             result = await Customer.find(filter).skip(offset).limit(limit).exec();
 
         } else {
             result = await Customer.find({});
+            // console.log(">>>Check chạy else >> ");
         }
 
         return result

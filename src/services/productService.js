@@ -10,6 +10,7 @@ module.exports = {
 
         if (data.type === "ADD-USERS") {
             let myProject = await Project.findById(data.projectId).exec();
+            // return myProject;
             for (let i = 0; i < data.usersArr.length; i++) {
                 myProject.usersInfor.push(data.usersArr[i]);
             }
@@ -51,11 +52,8 @@ module.exports = {
         delete filter.page;
 
         let offset = (page - 1) * limit;
-        result = await Project.find(filter)
-            .populate(population)
-            .skip(offset)
-            .limit(limit)
-            .exec();
+        // console.log(">>> Population>> ", population);
+        result = await Project.find(filter).populate(population).skip(offset).limit(limit).exec();
         return result;
     },
 

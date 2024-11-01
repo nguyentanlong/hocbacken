@@ -31,7 +31,7 @@ const customerSchema = new mongoose.Schema(
 );
 
 // Override all methods
-customerSchema.plugin(mongoose_delete, { overrideMethods: 'all' });
+customerSchema.plugin(mongoose_delete, { overrideMethods: 'all' });// để ko xóa mà chỉ ẩn
 
 const Customer = mongoose.model('Customer', customerSchema);
 

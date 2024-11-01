@@ -5,7 +5,7 @@ const webRoutes = require('./routes/web');
 const apiRoutes = require('./routes/api');
 const fileUpload = require('express-fileupload');
 const connection = require('./config/database');
-const userTable = require('./models/tableUser');
+// const userTable = require('./models/tableUser');
 
 
 const app = express();// app express
@@ -24,7 +24,7 @@ configViewEngine(app);
 
 //khai báo route
 app.use('/', webRoutes);
-app.use('/v1/api/', apiRoutes);
+app.use('/bocungduoc/', apiRoutes);
 
 
 // const themUser = new uss

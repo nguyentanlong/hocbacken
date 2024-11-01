@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../models/tableusers");
 const { uploadSingleFile, uploadMultipleFiles } = require("../services/fileService");
 
 const getUsersAPI = async (req, res) => {
@@ -15,11 +15,13 @@ const getUsersAPI = async (req, res) => {
 const postCreateUserAPI = async (req, res) => {
     let email = req.body.email;
     let name = req.body.myname;
-    let city = req.body.city;
+    let address = req.body.address;
+    let phoneNumber = req.body.numberPhone;
     let user = await User.create({
         email: email,
         name: name,
-        city: city
+        address: address,
+        phoneNumber: phoneNumber,
     })
 
     return res.status(200).json(
@@ -33,10 +35,11 @@ const postCreateUserAPI = async (req, res) => {
 const putUpdateUserAPI = async (req, res) => {
     let email = req.body.email;
     let name = req.body.myname;
-    let city = req.body.city;
+    let address = req.body.address;
+    let phoneNumber = req.body.numberPhone;
     let userId = req.body.userId;
 
-    let user = await User.updateOne({ _id: userId }, { email: email, name: name, city: city });
+    let user = await User.updateOne({ _id: userId }, { email: email, name: name, address: address, phoneNumber: phoneNumber });
 
     return res.status(200).json(
         {
@@ -67,7 +70,7 @@ const postUploadSingleFileApi = async (req, res) => {
         return res.status(400).send('No files were uploaded.');
     }
 
-    let result = await uploadSingleFile(req.files.image);
+    let result = await uploadSingleFile(req.files.image); //image la tên trong database
 
     return res.status(200).json(
         {

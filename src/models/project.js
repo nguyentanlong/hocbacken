@@ -25,7 +25,7 @@ const projectSchema = new mongoose.Schema(
         endDate: String,
         description: String,
         customerInfor: customerSchema,
-        usersInfor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+        usersInfor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tableusers' }],// ten export ben trong model
         leader: userSchema,
         tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'task' }]
     },

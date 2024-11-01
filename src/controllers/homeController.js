@@ -3,10 +3,10 @@ const { getAllUsers, getUserById,
     updateUserById, deleteUserById } = require('../services/CRUDService');
 
 // const User = require("../models/user");
-const userTable = require("../models/tableUser");
+const tableusers = require("../models/tableusers");
 
 const getHomepage = async (req, res) => {
-    let results = await userTable.find({});//=> select * from table
+    let results = await tableusers.find({});//=> select * from table
     return res.render('home.ejs', { listUsers: results }) // x <- y
 }
 
@@ -30,7 +30,7 @@ const postCreateUser = async (req, res) => {
     //     city: city
     // })
     // trên là mysql2
-    await userTable.create({//lần đầu sử dung .save
+    await tableusers.create({//lần đầu sử dung .save
         name: name,
         phoneNumber: phoneNumber,
         email: email,
@@ -46,7 +46,7 @@ const getCreatePage = (req, res) => {
 const getUpdatePage = async (req, res) => {
     const userId = req.params.id;
     // let user = await getUserById(userId);
-    let user = await userTable.findById(userId).exec();
+    let user = await tableusers.findById(userId).exec();
     res.render('edit.ejs', { userEdit: user }); //x <- y
 }
 const postUpdateUser = async (req, res) => {
@@ -56,13 +56,13 @@ const postUpdateUser = async (req, res) => {
     let phoneNumber = req.body.phoneNumber
     let userId = req.body.userId;
 
-    await userTable.updateOne({ _id: userId }, { email: email, name: name, address: address, phoneNumber: phoneNumber });
+    await tableusers.updateOne({ _id: userId }, { email: email, name: name, address: address, phoneNumber: phoneNumber });
     res.redirect('/');
 }
 
 const postDeleteUser = async (req, res) => {
     const userId = req.params.id;
-    let user = await userTable.findById(userId).exec();
+    let user = await tableusers.findById(userId).exec();
     res.render('delete.ejs', { userEdit: user })
 }
 
@@ -70,7 +70,7 @@ const postHandleRemoveUser = async (req, res) => {
     const id = req.body.userId;
 
     // await deleteUserById(id);
-    let result = await userTable.deleteOne({
+    let result = await tableusers.deleteOne({
         _id: id
     })
 
